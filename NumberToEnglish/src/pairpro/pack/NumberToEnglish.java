@@ -21,13 +21,21 @@ public class NumberToEnglish {
 	}
 	
 	static String translateEng(int n) {
-		if(n >= 20) {
-		int t, o;
-		t = n / 10;
-		o = n % 10;
-		if(o == 0) return overteen[t];
-		else return overteen[t] + " " +number[o];
+		return countHundred(n);
+	}
+	static String countHundred(int n) {
+		String ans = "";
+		int h = n / 100;
+		if (h > 0) ans = number[h]+" hundred ";
+		if (n % 100 == 0) return ans.substring(0, ans.length()-1);;
+		
+		if(n % 100 >= 20) {
+			int t = (n % 100) / 10;
+			int o = (n % 100) % 10;
+			if(o == 0) ans += overteen[t];
+			else ans +=  overteen[t] + " " +number[o];
 		}
-		else return number[n];
+		else ans += number[n % 100];
+		return ans;
 	}
 }
