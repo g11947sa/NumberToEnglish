@@ -11,7 +11,7 @@ public class NumberToEnglish {
 	static String[] overteen = {"", "", "twenty", "thirty", "fourty",
 								"fifty", "sixty", "seventy", "eighty", "ninety"};
 	
-	static String[] overhundred = {"", "", "thousand", "million", "billion", "trillion"};
+	static String[] overhundred = { "", "", "thousand", "million", "billion", "trillion"};
 	
 	static String answer = "";
 	
@@ -30,7 +30,7 @@ public class NumberToEnglish {
 		String ans = "";
 		int h = n / 100;
 		if (h > 0) ans = number[h]+" hundred ";
-		if (n % 100 == 0) return ans.substring(0, ans.length()-1);;
+		if (n % 100 == 0) return ans; //.substring(0, ans.length()-1);
 		
 		if(n % 100 >= 20) {
 			int t = (n % 100) / 10;
@@ -44,8 +44,9 @@ public class NumberToEnglish {
 	static void separate(int n, int count){
 		if(n==0) return;
 		int x = n / 1000;
-		separate(x, count++);
-		answer += countHundred(n) + overhundred[count];
+		separate(x, ++count);
+		answer += " " + countHundred(n % 1000);
+		answer += " " + overhundred[count];
 		return;
 	}
 }
