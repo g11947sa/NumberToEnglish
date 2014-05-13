@@ -11,41 +11,50 @@ public class NumberToEnglish {
 	static String[] overteen = {"", "", "twenty", "thirty", "fourty",
 								"fifty", "sixty", "seventy", "eighty", "ninety"};
 	
-	static String[] overhundred = { "", "", "thousand", "million", "billion", "trillion"};
-	
+	static String[] overhundred = { "", "", "thousand", "million", "billion",
+									"trillion", "quadrillion", "quintillion"};
 	static String answer = "";
+	static int flag = 0;
 	
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
-		int input = sc.nextInt();
+		long input = sc.nextLong();
 		
 		System.out.println(translateEng(input));
 	}
 	
-	static String translateEng(int n) {
+	static String translateEng(long n) {
+		if(n < 0) {
+			System.out.println("0ˆÈã‚Ì®”‚ð“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B");
+			return answer;
+		}
 		separate(n, 0);
 		return answer;
 	}
-	static String countHundred(int n) {
+	static String countHundred(long n) {
 		String ans = "";
-		int h = n / 100;
-		if (h > 0) ans = number[h]+" hundred ";
-		if (n % 100 == 0) return ans; //.substring(0, ans.length()-1);
+		long h = n / 100;
+		if (h > 0) ans = number[(int)h]+" hundred";
+		if (n % 100 == 0) return ans;
 		
 		if(n % 100 >= 20) {
-			int t = (n % 100) / 10;
-			int o = (n % 100) % 10;
-			if(o == 0) ans += overteen[t];
-			else ans +=  overteen[t] + " " +number[o];
+			long t = (n % 100) / 10;
+			long o = (n % 100) % 10;
+			if(o == 0) ans += " " + overteen[(int)t];
+			else ans +=  " " + overteen[(int)t] + " " +number[(int)o];
 		}
-		else ans += number[n % 100];
+		else ans += " " + number[(int)n % 100];
 		return ans;
 	}
-	static void separate(int n, int count){
-		if(n==0) return;
-		int x = n / 1000;
+	static void separate(long n, int count){
+		if(n==0) {
+			flag = count;
+			return;
+		}
+		long x = n / 1000;
 		separate(x, ++count);
-		answer += " " + countHundred(n % 1000);
+		if(flag != count) answer += " ";
+		answer += countHundred(n % 1000);
 		answer += " " + overhundred[count];
 		return;
 	}
